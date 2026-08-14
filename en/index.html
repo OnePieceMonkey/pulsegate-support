@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pulse Gate: Echo Shift — One Tap. One Wave. Perfect Timing.</title>
+<meta name="description" content="Pulse Gate: Echo Shift is a minimalist one-tap timing puzzle for iPhone. 200 levels, 20 chapters, no subscription, no ads.">
+<link rel="canonical" href="https://pulsegate.werle.app/en">
+<link rel="alternate" hreflang="de" href="https://pulsegate.werle.app/">
+<link rel="alternate" hreflang="en" href="https://pulsegate.werle.app/en">
+<link rel="alternate" hreflang="x-default" href="https://pulsegate.werle.app/">
+<meta property="og:title" content="Pulse Gate: Echo Shift">
+<meta property="og:description" content="A minimalist timing puzzle for iPhone. You never aim at the now — you anticipate where the gap will be.">
+<meta property="og:image" content="https://pulsegate.werle.app/assets/shot-02-gameplay.png">
+<meta property="og:type" content="website">
+<link rel="icon" href="/assets/icon.png">
+<link rel="apple-touch-icon" href="/assets/icon.png">
+<link rel="stylesheet" href="/assets/style.css">
+<script>window.PULSEGATE_STRINGS = { hit: 'Perfect', miss: 'Missed' };</script>
+</head>
+<body>
+
+<canvas id="pulse-canvas" aria-hidden="true"></canvas>
+
+<div class="hud-brand"><span class="dot" aria-hidden="true"></span>Pulse Gate: Echo Shift</div>
+<nav class="hud-lang" aria-label="Language">
+  <a href="/">DE</a><span class="sep">/</span><a href="/en" aria-current="true">EN</a>
+</nav>
+
+<!-- ============== HERO ============== -->
+<section id="hero">
+  <div class="hero-icon-wrap" id="icon-tilt">
+    <img src="/assets/icon.png" alt="Pulse Gate: Echo Shift app icon" width="128" height="128">
+  </div>
+  <h1 class="hero-headline">One tap. One wave.<br><span class="accent">Perfect timing.</span></h1>
+  <p class="hero-sub">A minimalist timing puzzle for iPhone. You never aim at the now — you anticipate where the gap is about to be.</p>
+  <div id="hero-cta" data-cta-label="Download on the App Store">
+    <div class="status-badge"><span class="led" aria-hidden="true"></span>Coming soon — currently in Apple review</div>
+  </div>
+  <div class="scroll-hint">Scroll to see the mechanic<div class="chevron">↓</div></div>
+</section>
+
+<!-- ============== MECHANIC ============== -->
+<section id="mechanic">
+  <p class="eyebrow">The mechanic</p>
+  <p class="mechanic-intro">Don't aim at now — aim at <span style="color:var(--thread)">next</span>.</p>
+
+  <svg id="mechanic-svg" viewBox="0 0 400 400" role="img" aria-label="Animation of the anchor timing mechanic: a pointer rotates, a tap locks in an angle, a pulse expands and hits an open gate segment.">
+    <circle cx="200" cy="200" r="150" fill="none" stroke="var(--gate-off)" stroke-width="3"/>
+    <path id="gate-arc" fill="none" stroke="#fff" stroke-width="7" stroke-linecap="round"/>
+    <circle id="pulse-ring" cx="200" cy="200" r="0" fill="none" stroke="var(--thread)" stroke-width="3" opacity="0"/>
+    <circle cx="200" cy="200" r="34" fill="var(--sunk)" stroke="var(--gate-off)" stroke-width="2"/>
+    <circle cx="200" cy="200" r="20" fill="none" stroke="var(--thread)" stroke-width="3"/>
+    <line id="pointer" x1="200" y1="200" x2="200" y2="170" stroke="var(--anchor)" stroke-width="4" stroke-linecap="round"/>
+    <circle cx="200" cy="200" r="8" fill="var(--thread)"/>
+  </svg>
+  <p class="mechanic-caption mono" id="mechanic-caption"></p>
+
+  <p class="mechanic-note">A pointer rotates continuously. A tap locks in the anchor angle — the pulse expands and only hits the gate if it's open at the moment of arrival. 200 levels, 20 chapters, six gate types.</p>
+</section>
+
+<!-- ============== GALLERY ============== -->
+<section id="gallery">
+  <p class="eyebrow">200 levels · 20 chapters · six gate types</p>
+  <h2 class="gallery-heading">From your first anchor to Endless mode.</h2>
+  <div class="gallery-row">
+    <div class="tilt-card">
+      <figure>
+        <img src="/assets/shot-01-menu.png" alt="Pulse Gate: Echo Shift main menu" width="200" height="433" loading="lazy">
+        <figcaption>Main menu</figcaption>
+      </figure>
+    </div>
+    <div class="tilt-card">
+      <figure>
+        <img src="/assets/shot-02-gameplay.png" alt="Gameplay: one ring, one open gate, rotating anchor pointer" width="200" height="433" loading="lazy">
+        <figcaption>Setting the anchor</figcaption>
+      </figure>
+    </div>
+    <div class="tilt-card">
+      <figure>
+        <img src="/assets/shot-03-multi.png" alt="Gameplay with several concurrent rings" width="200" height="433" loading="lazy">
+        <figcaption>Multiple rings</figcaption>
+      </figure>
+    </div>
+    <div class="tilt-card">
+      <figure>
+        <img src="/assets/shot-04-levelselect.png" alt="Level select with chapter overview" width="200" height="433" loading="lazy">
+        <figcaption>20 chapters</figcaption>
+      </figure>
+    </div>
+    <div class="tilt-card">
+      <figure>
+        <img src="/assets/shot-05-endless.png" alt="Endless mode with score display" width="200" height="433" loading="lazy">
+        <figcaption>Endless mode</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- ============== POSITIONING ============== -->
+<section id="positioning">
+  <p class="eyebrow">Honestly priced</p>
+  <h2 class="positioning-heading">Pay once. Play forever.</h2>
+  <p class="positioning-sub">The first ten levels and Endless mode are free. Everything else is a single purchase — no subscription quietly renewing while you're not looking.</p>
+
+  <div class="positioning-grid">
+    <div class="positioning-item">No subscription</div>
+    <div class="positioning-item">No ads</div>
+    <div class="positioning-item">No tracking</div>
+    <div class="positioning-item">No pay-to-win</div>
+  </div>
+
+  <div class="price-card">
+    <span class="price-value"><span class="accent">$0.99</span></span>
+    <span class="price-caption">one-time · unlocks levels 11–200 for good</span>
+  </div>
+</section>
+
+<!-- ============== FOOTER ============== -->
+<footer>
+  <p class="mono" style="letter-spacing:.1em; text-transform:uppercase; color: var(--muted); font-size:11px;">Pulse Gate: Echo Shift</p>
+  <p>
+    Werle Technologies · Patrick Werle<br>
+    Kalksteinstraße 6 · 32429 Minden · Germany<br>
+    <a href="mailto:pulsegate@werle.app">pulsegate@werle.app</a> · VAT ID DE463711023
+  </p>
+  <div class="footer-links">
+    <a href="/support">Support</a>
+    <a href="/privacy">Privacy</a>
+    <a href="/impressum">Imprint (German law)</a>
+  </div>
+</footer>
+
+<script src="/assets/config.js"></script>
+<script src="/assets/site.js"></script>
+</body>
+</html>
