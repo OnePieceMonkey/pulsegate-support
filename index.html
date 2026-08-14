@@ -1,54 +1,137 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
 <head>
-<meta charset="utf-8">
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>PulseGate: Echo Shift — Support</title>
-<style>
-  :root { color-scheme: dark; }
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  body {
-    background: #070A12; color: rgba(255,255,255,.85);
-    font: 16px/1.65 -apple-system, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
-    display: flex; justify-content: center; padding: 48px 20px;
-  }
-  main { max-width: 640px; width: 100%; }
-  .eyebrow { color: rgba(139,233,253,.6); font-size: 11px; letter-spacing: 3px; font-weight: 700; text-transform: uppercase; }
-  h1 { color: #fff; font-size: 28px; margin: 10px 0 4px; }
-  .sub { color: rgba(255,255,255,.5); margin-bottom: 36px; }
-  h2 { color: #8BE9FD; font-size: 16px; margin: 32px 0 8px; }
-  p { margin-bottom: 12px; color: rgba(255,255,255,.7); }
-  a { color: #8BE9FD; text-decoration: none; }
-  a:hover { text-decoration: underline; }
-  .card { background: #0E1420; border: 1px solid rgba(255,255,255,.08); border-radius: 16px; padding: 24px 28px; margin-top: 16px; }
-  .footer { margin-top: 48px; font-size: 13px; color: rgba(255,255,255,.35); }
-</style>
+<title>Pulse Gate: Echo Shift — Ein Tap. Eine Welle. Perfektes Timing.</title>
+<meta name="description" content="Pulse Gate: Echo Shift ist ein minimalistisches One-Tap-Timing-Puzzle für iPhone. 200 Level, 20 Kapitel, kein Abo, keine Werbung.">
+<link rel="canonical" href="https://pulsegate.werle.app/">
+<link rel="alternate" hreflang="de" href="https://pulsegate.werle.app/">
+<link rel="alternate" hreflang="en" href="https://pulsegate.werle.app/en">
+<link rel="alternate" hreflang="x-default" href="https://pulsegate.werle.app/">
+<meta property="og:title" content="Pulse Gate: Echo Shift">
+<meta property="og:description" content="Ein minimalistisches Timing-Puzzle für iPhone. Kein Ziel trifft man direkt — man antizipiert, wo die Lücke gleich sein wird.">
+<meta property="og:image" content="https://pulsegate.werle.app/assets/shot-02-gameplay.png">
+<meta property="og:type" content="website">
+<link rel="icon" href="/assets/icon.png">
+<link rel="apple-touch-icon" href="/assets/icon.png">
+<link rel="stylesheet" href="/assets/style.css">
+<script>window.PULSEGATE_STRINGS = { hit: 'Perfect', miss: 'Verfehlt' };</script>
 </head>
 <body>
-<main>
-  <div class="eyebrow">Support</div>
-  <h1>PulseGate: Echo Shift</h1>
-  <p class="sub">Minimalist one-tap timing game for iPhone and iPad.</p>
 
-  <div class="card">
-    <h2 style="margin-top:0">Contact / Kontakt</h2>
-    <p>Questions, feedback, or problems with the app?<br>
-    Fragen, Feedback oder Probleme mit der App?</p>
-    <p><a href="mailto:werle.business@gmail.com">werle.business@gmail.com</a></p>
+<canvas id="pulse-canvas" aria-hidden="true"></canvas>
+
+<div class="hud-brand"><span class="dot" aria-hidden="true"></span>Pulse Gate: Echo Shift</div>
+<nav class="hud-lang" aria-label="Sprache">
+  <a href="/" aria-current="true">DE</a><span class="sep">/</span><a href="/en">EN</a>
+</nav>
+
+<!-- ============== HERO ============== -->
+<section id="hero">
+  <div class="hero-icon-wrap" id="icon-tilt">
+    <img src="/assets/icon.png" alt="Pulse Gate: Echo Shift — App-Icon" width="128" height="128">
+  </div>
+  <h1 class="hero-headline">Ein Tap. Eine Welle.<br><span class="accent">Perfektes Timing.</span></h1>
+  <p class="hero-sub">Ein minimalistisches Timing-Puzzle für iPhone. Kein Ziel trifft man direkt — man antizipiert, wo die Lücke gleich sein wird.</p>
+  <div id="hero-cta" data-cta-label="Im App Store laden">
+    <div class="status-badge"><span class="led" aria-hidden="true"></span>Bald verfügbar — durchläuft aktuell die Apple-Review</div>
+  </div>
+  <div class="scroll-hint">Scroll, um die Mechanik zu sehen<div class="chevron">↓</div></div>
+</section>
+
+<!-- ============== MECHANIC ============== -->
+<section id="mechanic">
+  <p class="eyebrow">Die Mechanik</p>
+  <p class="mechanic-intro">Nicht auf das Jetzt zielen — auf das <span style="color:var(--thread)">Gleich</span>.</p>
+
+  <svg id="mechanic-svg" viewBox="0 0 400 400" role="img" aria-label="Animation der Anchor-Timing-Mechanik: ein Zeiger rotiert, ein Tap fixiert den Winkel, ein Puls expandiert und trifft ein offenes Gate-Segment.">
+    <circle cx="200" cy="200" r="150" fill="none" stroke="var(--gate-off)" stroke-width="3"/>
+    <path id="gate-arc" fill="none" stroke="#fff" stroke-width="7" stroke-linecap="round"/>
+    <circle id="pulse-ring" cx="200" cy="200" r="0" fill="none" stroke="var(--thread)" stroke-width="3" opacity="0"/>
+    <circle cx="200" cy="200" r="34" fill="var(--sunk)" stroke="var(--gate-off)" stroke-width="2"/>
+    <circle cx="200" cy="200" r="20" fill="none" stroke="var(--thread)" stroke-width="3"/>
+    <line id="pointer" x1="200" y1="200" x2="200" y2="170" stroke="var(--anchor)" stroke-width="4" stroke-linecap="round"/>
+    <circle cx="200" cy="200" r="8" fill="var(--thread)"/>
+  </svg>
+  <p class="mechanic-caption mono" id="mechanic-caption"></p>
+
+  <p class="mechanic-note">Ein Zeiger rotiert kontinuierlich. Ein Tap legt den Anchor-Winkel fest — der Puls expandiert und trifft das Gate nur, wenn es zum Ankunftszeitpunkt offen ist. 200 Level, 20 Kapitel, sechs Gate-Typen.</p>
+</section>
+
+<!-- ============== GALLERY ============== -->
+<section id="gallery">
+  <p class="eyebrow">200 Level · 20 Kapitel · Sechs Gate-Typen</p>
+  <h2 class="gallery-heading">Vom ersten Anker bis zum Endless-Modus.</h2>
+  <div class="gallery-row">
+    <div class="tilt-card">
+      <figure>
+        <img src="/assets/shot-01-menu.png" alt="Hauptmenü von Pulse Gate: Echo Shift" width="200" height="433" loading="lazy">
+        <figcaption>Hauptmenü</figcaption>
+      </figure>
+    </div>
+    <div class="tilt-card">
+      <figure>
+        <img src="/assets/shot-02-gameplay.png" alt="Gameplay: ein Ring, ein offenes Gate, rotierender Anchor-Zeiger" width="200" height="433" loading="lazy">
+        <figcaption>Anchor setzen</figcaption>
+      </figure>
+    </div>
+    <div class="tilt-card">
+      <figure>
+        <img src="/assets/shot-03-multi.png" alt="Gameplay mit mehreren gleichzeitigen Ringen" width="200" height="433" loading="lazy">
+        <figcaption>Mehrere Ringe</figcaption>
+      </figure>
+    </div>
+    <div class="tilt-card">
+      <figure>
+        <img src="/assets/shot-04-levelselect.png" alt="Level-Auswahl mit Kapitelübersicht" width="200" height="433" loading="lazy">
+        <figcaption>20 Kapitel</figcaption>
+      </figure>
+    </div>
+    <div class="tilt-card">
+      <figure>
+        <img src="/assets/shot-05-endless.png" alt="Endless-Modus mit Score-Anzeige" width="200" height="433" loading="lazy">
+        <figcaption>Endless-Modus</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- ============== POSITIONING ============== -->
+<section id="positioning">
+  <p class="eyebrow">Ehrlich bepreist</p>
+  <h2 class="positioning-heading">Einmal zahlen. Für immer spielen.</h2>
+  <p class="positioning-sub">Die ersten zehn Level und der Endless-Modus sind kostenlos. Für den Rest gibt es einen einzigen Kauf — kein Abo, das weiterläuft, wenn man nicht hinsieht.</p>
+
+  <div class="positioning-grid">
+    <div class="positioning-item">Kein Abo</div>
+    <div class="positioning-item">Keine Werbung</div>
+    <div class="positioning-item">Kein Tracking</div>
+    <div class="positioning-item">Kein Pay-to-Win</div>
   </div>
 
-  <h2>Purchases &amp; Restore</h2>
-  <p>Levels 1–10 are free. A single one-time purchase unlocks all 200 levels.
-  If you reinstalled the app or switched devices, tap <em>Restore Purchase</em>
-  on the unlock screen — no account needed, the purchase is tied to your Apple&nbsp;ID.</p>
-  <p lang="de">Level 1–10 sind kostenlos. Ein einmaliger Kauf schaltet alle 200 Level frei.
-  Nach Neuinstallation oder Gerätewechsel genügt <em>„Kauf wiederherstellen"</em> auf dem
-  Freischalt-Bildschirm — kein Account nötig, der Kauf hängt an deiner Apple&nbsp;ID.</p>
+  <div class="price-card">
+    <span class="price-value"><span class="accent">0,99&nbsp;€</span></span>
+    <span class="price-caption">einmalig · schaltet Level 11–200 dauerhaft frei</span>
+  </div>
+</section>
 
-  <h2>Privacy / Datenschutz</h2>
-  <p><a href="privacy.html">Privacy Policy / Datenschutzerklärung</a></p>
+<!-- ============== FOOTER ============== -->
+<footer>
+  <p class="mono" style="letter-spacing:.1em; text-transform:uppercase; color: var(--muted); font-size:11px;">Pulse Gate: Echo Shift</p>
+  <p>
+    Werle Technologies · Patrick Werle<br>
+    Kalksteinstraße 6 · 32429 Minden · Deutschland<br>
+    <a href="mailto:pulsegate@werle.app">pulsegate@werle.app</a> · USt-IdNr. DE463711023
+  </p>
+  <div class="footer-links">
+    <a href="/support">Support</a>
+    <a href="/privacy">Datenschutz</a>
+    <a href="/impressum">Impressum</a>
+  </div>
+</footer>
 
-  <p class="footer">© 2026 Patrick Werle · Pulse Gate: Echo Shift</p>
-</main>
+<script src="/assets/config.js"></script>
+<script src="/assets/site.js"></script>
 </body>
 </html>
