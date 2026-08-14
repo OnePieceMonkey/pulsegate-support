@@ -169,6 +169,10 @@ var STRINGS = window.PULSEGATE_STRINGS || { hit: 'Perfect', miss: 'Missed' };
     return 'M ' + start.x + ' ' + start.y + ' A ' + r + ' ' + r + ' 0 ' + largeArc + ' 0 ' + end.x + ' ' + end.y;
   }
   function norm360(a){ return ((a % 360) + 360) % 360; }
+  function angularDist(a, b){
+    var d = Math.abs(norm360(a) - norm360(b)) % 360;
+    return d > 180 ? 360 - d : d;
+  }
 
   function setPointer(angleDeg){
     var p = polarToXY(POINTER_R, angleDeg);
@@ -186,44 +190,60 @@ var STRINGS = window.PULSEGATE_STRINGS || { hit: 'Perfect', miss: 'Missed' };
     caption.textContent = text;
     caption.className = 'mechanic-caption mono show' + (cls ? ' ' + cls : '');
   }
-  function hideCaption(){
-    caption.className = 'mechanic-caption mono';
+  function showHint(){
+    caption.textContent = STRINGS.hint || 'Tap to fire';
+    caption.className = 'mechanic-caption mono show hint';
   }
 
   var gateAngle = 40;
   var pointerAngle = 0;
-  var nextOutcomeIsHit = true;
-  var tapAngle = 0;
   setGate(gateAngle);
   setPointer(pointerAngle);
 
-  function planNextTap(){
-    nextOutcomeIsHit = Math.random() < 0.75;
-    if(nextOutcomeIsHit){
-      var margin = GATE_ARC_WIDTH/2 - 8;
-      tapAngle = norm360(gateAngle + (Math.random()*2 - 1) * margin);
-    } else {
-      var side = Math.random() < 0.5 ? -1 : 1;
-      var offset = GATE_ARC_WIDTH/2 + 14 + Math.random()*14;
-      tapAngle = norm360(gateAngle + side*offset);
-    }
-  }
-  planNextTap();
+  svg.setAttribute('role', 'button');
+  svg.setAttribute('tabindex', '0');
+  svg.style.cursor = 'pointer';
+  svg.style.touchAction = 'manipulation';
 
   if(REDUCED){
     setGate(80);
-    flashGate('var(--perfect)');
     setPointer(80);
-    pulseRing.setAttribute('r', String(GATE_R));
-    pulseRing.setAttribute('opacity', '0.6');
-    pulseRing.setAttribute('stroke', 'var(--perfect)');
-    showCaption(STRINGS.hit, 'hit');
+    function fireReduced(){
+      flashGate('var(--perfect)');
+      pulseRing.setAttribute('r', String(GATE_R));
+      pulseRing.setAttribute('opacity', '0.6');
+      pulseRing.setAttribute('stroke', 'var(--perfect)');
+      showCaption(STRINGS.hit, 'hit');
+    }
+    showHint();
+    svg.addEventListener('pointerdown', fireReduced);
+    svg.addEventListener('keydown', function(e){
+      if(e.key === ' ' || e.key === 'Enter'){ e.preventDefault(); fireReduced(); }
+    });
     return;
   }
 
   var STATE_ROTATE = 'rotate', STATE_EXPAND = 'expand', STATE_RESOLVE = 'resolve', STATE_RESET = 'reset';
   var state = STATE_ROTATE;
   var stateStart = 0;
+  var lastOutcomeIsHit = true;
+  showHint();
+
+  function fire(atAngle){
+    if(state !== STATE_ROTATE) return;
+    lastOutcomeIsHit = angularDist(atAngle, gateAngle) <= GATE_ARC_WIDTH/2;
+    pointerAngle = atAngle;
+    setPointer(pointerAngle);
+    state = STATE_EXPAND;
+    stateStart = performance.now();
+    pulseRing.setAttribute('r', '0');
+    pulseRing.setAttribute('opacity', '0.9');
+    pulseRing.setAttribute('stroke', 'var(--thread)');
+  }
+  svg.addEventListener('pointerdown', function(){ fire(pointerAngle); });
+  svg.addEventListener('keydown', function(e){
+    if(e.key === ' ' || e.key === 'Enter'){ e.preventDefault(); fire(pointerAngle); }
+  });
 
   function tick(now){
     var dt;
@@ -234,15 +254,6 @@ var STRINGS = window.PULSEGATE_STRINGS || { hit: 'Perfect', miss: 'Missed' };
     if(state === STATE_ROTATE){
       pointerAngle = norm360(pointerAngle + ANGULAR_SPEED * dt);
       setPointer(pointerAngle);
-      var remaining = norm360(tapAngle - pointerAngle) / ANGULAR_SPEED;
-      if(remaining < dt * 1.5){
-        pointerAngle = tapAngle;
-        setPointer(pointerAngle);
-        state = STATE_EXPAND;
-        stateStart = now;
-        pulseRing.setAttribute('opacity', '0.9');
-        pulseRing.setAttribute('stroke', 'var(--thread)');
-      }
     } else if(state === STATE_EXPAND){
       var t = Math.min(1, (now - stateStart) / 700);
       var eased = 1 - Math.pow(1-t, 3);
@@ -250,7 +261,7 @@ var STRINGS = window.PULSEGATE_STRINGS || { hit: 'Perfect', miss: 'Missed' };
       if(t >= 1){
         state = STATE_RESOLVE;
         stateStart = now;
-        if(nextOutcomeIsHit){
+        if(lastOutcomeIsHit){
           flashGate('var(--perfect)');
           pulseRing.setAttribute('stroke', 'var(--perfect)');
           showCaption(STRINGS.hit, 'hit');
@@ -271,10 +282,9 @@ var STRINGS = window.PULSEGATE_STRINGS || { hit: 'Perfect', miss: 'Missed' };
       if(ft >= 1){
         pulseRing.setAttribute('r', '0');
         pulseRing.setAttribute('opacity', '0');
-        hideCaption();
+        showHint();
         gateAngle = norm360(gateAngle + 70 + Math.random()*140);
         setGate(gateAngle);
-        planNextTap();
         state = STATE_ROTATE;
       }
     }

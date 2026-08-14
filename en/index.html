@@ -16,7 +16,7 @@
 <link rel="icon" href="/assets/icon.png">
 <link rel="apple-touch-icon" href="/assets/icon.png">
 <link rel="stylesheet" href="/assets/style.css">
-<script>window.PULSEGATE_STRINGS = { hit: 'Perfect', miss: 'Missed' };</script>
+<script>window.PULSEGATE_STRINGS = { hit: 'Perfect', miss: 'Missed', hint: 'Tap to fire' };</script>
 </head>
 <body>
 
@@ -45,7 +45,7 @@
   <p class="eyebrow">The mechanic</p>
   <p class="mechanic-intro">Don't aim at now — aim at <span style="color:var(--thread)">next</span>.</p>
 
-  <svg id="mechanic-svg" viewBox="0 0 400 400" role="img" aria-label="Animation of the anchor timing mechanic: a pointer rotates, a tap locks in an angle, a pulse expands and hits an open gate segment.">
+  <svg id="mechanic-svg" viewBox="0 0 400 400" aria-label="Interactive anchor timing demo: tap or click to lock in the rotating pointer's angle. If the pulse hits the open gate segment, it's Perfect, otherwise Missed.">
     <circle cx="200" cy="200" r="150" fill="none" stroke="var(--gate-off)" stroke-width="3"/>
     <path id="gate-arc" fill="none" stroke="#fff" stroke-width="7" stroke-linecap="round"/>
     <circle id="pulse-ring" cx="200" cy="200" r="0" fill="none" stroke="var(--thread)" stroke-width="3" opacity="0"/>
@@ -56,7 +56,7 @@
   </svg>
   <p class="mechanic-caption mono" id="mechanic-caption"></p>
 
-  <p class="mechanic-note">A pointer rotates continuously. A tap locks in the anchor angle — the pulse expands and only hits the gate if it's open at the moment of arrival. 200 levels, 20 chapters, six gate types.</p>
+  <p class="mechanic-note">The pointer rotates continuously. Your tap locks in the anchor angle — the pulse only hits the gate if it's open at that exact moment. In the app: 200 levels, 20 chapters, six gate types.</p>
 </section>
 
 <!-- ============== GALLERY ============== -->

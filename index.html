@@ -16,7 +16,7 @@
 <link rel="icon" href="/assets/icon.png">
 <link rel="apple-touch-icon" href="/assets/icon.png">
 <link rel="stylesheet" href="/assets/style.css">
-<script>window.PULSEGATE_STRINGS = { hit: 'Perfect', miss: 'Verfehlt' };</script>
+<script>window.PULSEGATE_STRINGS = { hit: 'Perfect', miss: 'Verfehlt', hint: 'Tippen zum Auslösen' };</script>
 </head>
 <body>
 
@@ -45,7 +45,7 @@
   <p class="eyebrow">Die Mechanik</p>
   <p class="mechanic-intro">Nicht auf das Jetzt zielen — auf das <span style="color:var(--thread)">Gleich</span>.</p>
 
-  <svg id="mechanic-svg" viewBox="0 0 400 400" role="img" aria-label="Animation der Anchor-Timing-Mechanik: ein Zeiger rotiert, ein Tap fixiert den Winkel, ein Puls expandiert und trifft ein offenes Gate-Segment.">
+  <svg id="mechanic-svg" viewBox="0 0 400 400" aria-label="Interaktive Anchor-Timing-Demo: Tippen oder Klicken legt den Winkel des rotierenden Zeigers fest. Trifft der Puls das offene Gate-Segment, ist es Perfect, sonst Verfehlt.">
     <circle cx="200" cy="200" r="150" fill="none" stroke="var(--gate-off)" stroke-width="3"/>
     <path id="gate-arc" fill="none" stroke="#fff" stroke-width="7" stroke-linecap="round"/>
     <circle id="pulse-ring" cx="200" cy="200" r="0" fill="none" stroke="var(--thread)" stroke-width="3" opacity="0"/>
@@ -56,7 +56,7 @@
   </svg>
   <p class="mechanic-caption mono" id="mechanic-caption"></p>
 
-  <p class="mechanic-note">Ein Zeiger rotiert kontinuierlich. Ein Tap legt den Anchor-Winkel fest — der Puls expandiert und trifft das Gate nur, wenn es zum Ankunftszeitpunkt offen ist. 200 Level, 20 Kapitel, sechs Gate-Typen.</p>
+  <p class="mechanic-note">Der Zeiger rotiert kontinuierlich. Dein Tap legt den Anchor-Winkel fest — der Puls trifft das Gate nur, wenn es genau in diesem Moment offen ist. In der App: 200 Level, 20 Kapitel, sechs Gate-Typen.</p>
 </section>
 
 <!-- ============== GALLERY ============== -->

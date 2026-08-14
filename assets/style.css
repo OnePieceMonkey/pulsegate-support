@@ -180,7 +180,22 @@ h1.hero-headline .accent { color: var(--thread); }
 @keyframes bob { 0%,100% { transform: translateY(0); } 50% { transform: translateY(5px); } }
 
 /* ---------------- Mechanic ---------------- */
-#mechanic-svg { width: min(76vw, 420px); height: auto; overflow: visible; }
+#mechanic-svg {
+  width: min(76vw, 420px);
+  height: auto;
+  overflow: visible;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  transition: transform .12s ease;
+}
+#mechanic-svg:hover { transform: scale(1.015); }
+#mechanic-svg:active { transform: scale(0.975); }
+#mechanic-svg:focus-visible {
+  outline: 2px solid var(--thread);
+  outline-offset: 10px;
+  border-radius: 50%;
+}
 .mechanic-caption {
   margin-top: 26px;
   height: 22px;
@@ -194,6 +209,7 @@ h1.hero-headline .accent { color: var(--thread); }
 .mechanic-caption.show { opacity: 1; }
 .mechanic-caption.hit { color: var(--perfect); }
 .mechanic-caption.miss { color: var(--fail); }
+.mechanic-caption.hint { color: var(--faint); text-transform: none; letter-spacing: 0.04em; }
 .mechanic-intro {
   max-width: 42ch;
   margin-top: 8px;
