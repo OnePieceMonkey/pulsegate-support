@@ -5,16 +5,10 @@ var REDUCED = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion
 var STRINGS = window.PULSEGATE_STRINGS || { hit: 'Perfect', miss: 'Missed' };
 
 (function heroCta(){
-  var mount = document.getElementById('hero-cta');
-  if(!mount) return;
+  // The badge link is static HTML; config.js stays the single source of truth for the URL.
+  var link = document.querySelector('#hero-cta a');
   var url = window.PULSEGATE_APP_STORE_URL;
-  if(url){
-    var a = document.createElement('a');
-    a.className = 'appstore-cta';
-    a.href = url;
-    a.textContent = mount.dataset.ctaLabel || 'Download on the App Store';
-    mount.replaceWith(a);
-  }
+  if(link && url) link.href = url;
 })();
 
 (function backgroundPulses(){
